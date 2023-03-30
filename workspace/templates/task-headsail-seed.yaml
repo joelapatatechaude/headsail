@@ -52,10 +52,10 @@ spec:
         [[ -f $(workspaces.kubeconfig-dir.path)/kubeconfig ]] && \
         export KUBECONFIG=$(workspaces.kubeconfig-dir.path)/kubeconfig
 
-        oc delete secret argocd-env-secret || true
-        oc delete configmap argocd-env-configmap || true
-        oc delete configmap headsail-student-configmap || true
-        
+        oc delete secret argocd-env-secret  &>/dev/null || true
+        oc delete configmap argocd-env-configmap &>/dev/null || true
+        oc delete configmap headsail-student-configmap &>/dev/null || true
+
         ARGOCD_SERVER=$(oc get configmap argocd-cm -n $(params.argocd-namespace) -o jsonpath='{.data.url}' | sed 's/^https:\/\///')
         oc create configmap argocd-env-configmap --from-literal="ARGOCD_SERVER=$ARGOCD_SERVER"
 
